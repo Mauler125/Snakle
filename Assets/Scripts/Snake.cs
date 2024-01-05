@@ -21,19 +21,31 @@ public class Snake : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            direction = new Vector3(0,0,1);
+            if(direction.z == 0)
+            {
+                direction = new Vector3(0, 0, 1);
+            }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            direction = Vector3.right;
+            if (direction.x == 0)
+            {
+                direction = Vector3.right;
+            }
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            direction = new Vector3(0,0,-1);
+            if (direction.z == 0)
+            {
+                direction = new Vector3(0, 0, -1);
+            }
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            direction = Vector3.left;
+            if (direction.x == 0)
+            {
+                direction = Vector3.left;
+            }
         }
     }
     private void FixedUpdate()
@@ -65,5 +77,15 @@ public class Snake : MonoBehaviour
         {
             GrowSnake();
         }
+        if (other.CompareTag("Obstacle"))
+        {
+            DieSnake();
+        }
+
+    }
+
+    public void DieSnake()
+    {
+        Debug.Log("DEAD");
     }
 }
