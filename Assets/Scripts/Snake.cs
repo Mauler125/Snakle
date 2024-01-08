@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Snake : MonoBehaviour
 {
@@ -96,6 +97,8 @@ public class Snake : MonoBehaviour
         // Move the tail to the last position in the list
         if (snakeParts.Count > 2)
         {
+            Assert.IsTrue(tail.tag == "SnakeTail", "tail should always be the last part of the snake; forgot to tag it SnakeTail???");
+
             snakeParts.RemoveAt(currArraySize);  // Remove the tail from its current position
             snakeParts.Add(tail);   // Add the tail to the end of the list
         }
@@ -108,7 +111,7 @@ public class Snake : MonoBehaviour
         {
             GrowSnake();
         }
-        if (other.CompareTag("Obstacle"))
+        if (other.CompareTag("Obstacle") || other.CompareTag("SnakeTail"))
         {
             DieSnake();
         }
