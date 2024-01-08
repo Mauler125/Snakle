@@ -37,7 +37,49 @@ public class Snake : MonoBehaviour
 
     Movement_t pendingMovementCmd = Movement_t.INVALID;
 
+    //-------------------------------------------------------------------------
+    // code callbacks
+    //-------------------------------------------------------------------------
+
     public void Start()
+    {
+        InitSnake();
+    }
+
+    void Update()
+    {
+        // poll movement cmd if there's none; see Movement_t enum
+        if (pendingMovementCmd == Movement_t.INVALID)
+            GetInputCmd();
+
+        if (ProcessInput())
+            pendingMovementCmd = Movement_t.INVALID;
+    }
+
+    private void FixedUpdate()
+    {
+        RunSnakeMovement();
+        currentTick++;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        // Speaks for itself
+        if (other.CompareTag("Food"))
+        {
+            GrowSnake();
+        }
+        if (other.CompareTag("Obstacle") || other.CompareTag("SnakeTail"))
+        {
+            DieSnake();
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    // init
+    //-------------------------------------------------------------------------
+
+    void InitSnake()
     {
         // Add head to the List
         snakeParts.Add(this.transform);
@@ -58,6 +100,61 @@ public class Snake : MonoBehaviour
         // Add the tail to the list
         snakeParts.Add(tail);
     }
+
+    //-------------------------------------------------------------------------
+    // game
+    //-------------------------------------------------------------------------
+
+    void RunSnakeMovement()
+    {
+        // Updating the position of each segment to match the position of the segment in front of it
+        for (int i = snakeParts.Count - 1; i > 0; i--)
+        {
+            snakeParts[i].position = snakeParts[i - 1].position;
+            snakeParts[i].rotation = snakeParts[i - 1].rotation;
+        }
+
+        //Updates the position of the snakes head
+        this.transform.position = new Vector3(
+            Mathf.Round(this.transform.position.x) + direction.x,
+            1.0f,
+            Mathf.Round(this.transform.position.z) + direction.z
+            );
+    }
+
+    public void GrowSnake()
+    {
+        // NOTE: cache off the last index since it will contain the
+        // tail of the snake, we add a new part towards the end, but
+        // want to move the tail towards the back again.
+        int currArraySize = (snakeParts.Count - 1);
+
+        // Spawns new snake part and moves it to the last position
+        Transform part = Instantiate(this.partPrefab);
+        part.position = snakeParts[currArraySize].position;
+
+        snakeParts.Add(part);
+        tail = snakeParts[currArraySize]; // Get the tail.
+
+        // Move the tail to the last position in the list
+        if (snakeParts.Count > 2)
+        {
+            Assert.IsTrue(tail.tag == "SnakeTail", "tail should always be the last part of the snake; forgot to tag it SnakeTail???");
+
+            snakeParts.RemoveAt(currArraySize);  // Remove the tail from its current position
+            snakeParts.Add(tail);   // Add the tail to the end of the list
+        }
+    }
+
+    public void DieSnake()
+    {
+        // Still need logic for this..
+        Debug.Log("DEAD");
+    }
+
+    //-------------------------------------------------------------------------
+    // input
+    //-------------------------------------------------------------------------
 
     // returns true if a movement cmd has been processed
     bool ProcessInput()
@@ -114,77 +211,5 @@ public class Snake : MonoBehaviour
         {
             pendingMovementCmd = Movement_t.RIGHT;
         }
-    }
-
-    void Update()
-    {
-        // poll movement cmd if there's none; see Movement_t enum
-        if (pendingMovementCmd == Movement_t.INVALID)
-            GetInputCmd();
-
-        if (ProcessInput())
-            pendingMovementCmd = Movement_t.INVALID;
-    }
-
-    private void FixedUpdate()
-    {
-        // Updating the position of each segment to match the position of the segment in front of it
-        for (int i = snakeParts.Count - 1; i > 0; i--)
-        {
-            snakeParts[i].position = snakeParts[i - 1].position;
-            snakeParts[i].rotation = snakeParts[i - 1].rotation;
-        }
-
-        //Updates the position of the snakes head
-        this.transform.position = new Vector3(
-            Mathf.Round(this.transform.position.x) + direction.x,
-            1.0f,
-            Mathf.Round(this.transform.position.z) + direction.z
-            );
-
-        currentTick++;
-    }
-
-    public void GrowSnake()
-    {
-        // NOTE: cache off the last index since it will contain the
-        // tail of the snake, we add a new part towards the end, but
-        // want to move the tail towards the back again.
-        int currArraySize = (snakeParts.Count - 1);
-
-        // Spawns new snake part and moves it to the last position
-        Transform part = Instantiate(this.partPrefab);
-        part.position = snakeParts[currArraySize].position;
-
-        snakeParts.Add(part);
-        tail = snakeParts[currArraySize]; // Get the tail.
-
-        // Move the tail to the last position in the list
-        if (snakeParts.Count > 2)
-        {
-            Assert.IsTrue(tail.tag == "SnakeTail", "tail should always be the last part of the snake; forgot to tag it SnakeTail???");
-
-            snakeParts.RemoveAt(currArraySize);  // Remove the tail from its current position
-            snakeParts.Add(tail);   // Add the tail to the end of the list
-        }
-    }
-
-    public void OnTriggerEnter(Collider other)
-    {
-        // Speaks for itself
-        if (other.CompareTag("Food")) 
-        {
-            GrowSnake();
-        }
-        if (other.CompareTag("Obstacle") || other.CompareTag("SnakeTail"))
-        {
-            DieSnake();
-        }
-    }
-
-    public void DieSnake()
-    {
-        // Still need logic for this..
-        Debug.Log("DEAD");
     }
 }
