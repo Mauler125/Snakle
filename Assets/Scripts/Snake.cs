@@ -6,17 +6,35 @@ public class Snake : MonoBehaviour
 {
     public Vector3 direction;
 
+    public int initialSnakeLength;
+
     public List<Transform> snakeParts = new List<Transform>();
 
     public Transform partPrefab;
+    public Transform tailPrefab;
 
-    private void Start()
+    private Transform tail;
+
+    public void Start()
     {
         // Add head to the List
         snakeParts.Add(this.transform);
 
         // Initial direction
         direction = Vector3.forward;
+
+        // Add initial tail pieces
+        for (int i = 1; i < initialSnakeLength; i++)
+        {
+            GrowSnake();
+        }
+
+        // Adds Tail
+        tail = Instantiate(tailPrefab);
+        tail.position = this.transform.position - new Vector3(0, 0, 1);
+
+        // Add the tail to the list
+        snakeParts.Add(tail);
     }
 
     void Update()
@@ -69,10 +87,21 @@ public class Snake : MonoBehaviour
 
         // Adds new part to the list
         snakeParts.Add(part);
+
+        // Update the tail reference
+        tail = snakeParts[1];
+
+        // Move the tail to the last position in the list
+        if (snakeParts.Count > 2)
+        {
+            snakeParts.RemoveAt(1);  // Remove the tail from its current position
+            snakeParts.Add(tail);   // Add the tail to the end of the list
+        }
     }
 
     public void OnTriggerEnter(Collider other)
     {
+        // Speaks for itself
         if (other.CompareTag("Food")) 
         {
             GrowSnake();
