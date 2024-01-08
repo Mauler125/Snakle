@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -109,11 +110,28 @@ public class Snake : MonoBehaviour
 
     void RunSnakeMovement()
     {
+        int currArraySize = (snakeParts.Count - 1);
+
         // Updating the position of each segment to match the position of the segment in front of it
-        for (int i = snakeParts.Count - 1; i > 0; i--)
+        for (int i = currArraySize; i > 0; i--)
         {
-            snakeParts[i].position = snakeParts[i - 1].position;
+            if (snakeParts[i].childCount > 1)
+            {
+                if (snakeParts[i].rotation != snakeParts[i - 1].rotation)
+                {
+                    snakeParts[i].GetChild(0).gameObject.SetActive(false);
+                    snakeParts[i].GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                {
+                    snakeParts[i].GetChild(0).gameObject.SetActive(true);
+                    snakeParts[i].GetChild(1).gameObject.SetActive(false);
+                }
+            }
+
             snakeParts[i].rotation = snakeParts[i - 1].rotation;
+
+            snakeParts[i].position = snakeParts[i - 1].position;
         }
 
         //Updates the position of the snakes head
