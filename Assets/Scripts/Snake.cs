@@ -35,6 +35,8 @@ public class Snake : MonoBehaviour
     private int currentTick;
     private int lastMovementTick;
 
+    // NOTE: we track the movement command in the main update thread; we can't
+    // run movement in FixedUpdate as its too slow.
     Movement_t pendingMovementCmd = Movement_t.INVALID;
 
     //-------------------------------------------------------------------------
