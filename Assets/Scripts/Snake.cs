@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -15,6 +14,28 @@ public class Snake : MonoBehaviour
     public Transform tailPrefab;
 
     private Transform tail;
+
+    private enum Movement_t
+    {
+        //NOTE: invalid means that we can store a new cmd to process in the next
+        // update tick.
+        INVALID = -1,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
+
+    // since movement simulation runs in a different thread than input, we need
+    // to track the simulation tick and cache off the 'pending' movement cmd
+    // which needs to be executed the next tick. this fixes an edge case bug
+    // where the player could rotate the snake by 180 degrees and collide head
+    // on. this bug became apparent after we ran a test with the customer, and
+    // customer clicked on the buttons faster than we initially tested on.
+    private int currentTick;
+    private int lastMovementTick;
+
+    Movement_t pendingMovementCmd = Movement_t.INVALID;
 
     public void Start()
     {
@@ -38,35 +59,77 @@ public class Snake : MonoBehaviour
         snakeParts.Add(tail);
     }
 
-    void Update()
+    // returns true if a movement cmd has been processed
+    bool ProcessInput()
     {
-        // Move the player based to the direction based on their input
-        // Rotates the head to the right direction
+        // only process input once per simulation tick!!!
+        if (lastMovementTick == currentTick)
+            return false;
+
+        lastMovementTick = currentTick;
+
+        switch (pendingMovementCmd)
+        {
+            case Movement_t.UP:
+                direction = Vector3.forward;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+                return true;
+            case Movement_t.DOWN:
+                direction = Vector3.right;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                return true;
+            case Movement_t.LEFT:
+                direction = Vector3.back;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+                return true;
+            case Movement_t.RIGHT:
+                direction = Vector3.left;
+                this.gameObject.transform.rotation = Quaternion.Euler(0, 270, 0);
+                return true;
+
+            // didn't process movement cmd.
+            default:
+                return false;
+        }
+    }
+
+    void GetInputCmd()
+    {
+        if (pendingMovementCmd != Movement_t.INVALID)
+            return;
+
         if (Input.GetKeyDown(KeyCode.W) && direction.z == 0)
         {
-            direction = Vector3.forward;
-            this.gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            pendingMovementCmd = Movement_t.UP;
         }
         else if (Input.GetKeyDown(KeyCode.D) && direction.x == 0)
         {
-            direction = Vector3.right;
-            this.gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            pendingMovementCmd = Movement_t.DOWN;
         }
         else if (Input.GetKeyDown(KeyCode.S) && direction.z == 0)
         {
-            direction = Vector3.back;
-            this.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            pendingMovementCmd = Movement_t.LEFT;
         }
         else if (Input.GetKeyDown(KeyCode.A) && direction.x == 0)
         {
-            direction = Vector3.left;
-            this.gameObject.transform.rotation = Quaternion.Euler(0, 270, 0);
+            pendingMovementCmd = Movement_t.RIGHT;
         }
     }
+
+    void Update()
+    {
+        // poll movement cmd if there's none; see Movement_t enum
+        if (pendingMovementCmd == Movement_t.INVALID)
+            GetInputCmd();
+
+        if (ProcessInput())
+            pendingMovementCmd = Movement_t.INVALID;
+    }
+
     private void FixedUpdate()
     {
         // Updating the position of each segment to match the position of the segment in front of it
-        for(int i = snakeParts.Count - 1; i > 0; i--)
+        for (int i = snakeParts.Count - 1; i > 0; i--)
         {
             snakeParts[i].position = snakeParts[i - 1].position;
             snakeParts[i].rotation = snakeParts[i - 1].rotation;
@@ -78,6 +141,8 @@ public class Snake : MonoBehaviour
             1.0f,
             Mathf.Round(this.transform.position.z) + direction.z
             );
+
+        currentTick++;
     }
 
     public void GrowSnake()
