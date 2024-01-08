@@ -64,7 +64,7 @@ public class Snake : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        // Updating the position of eacht segment to match the position of the segment in front of it
+        // Updating the position of each segment to match the position of the segment in front of it
         for(int i = snakeParts.Count - 1; i > 0; i--)
         {
             snakeParts[i].position = snakeParts[i - 1].position;
@@ -81,20 +81,22 @@ public class Snake : MonoBehaviour
 
     public void GrowSnake()
     {
+        // NOTE: cache off the last index since it will contain the
+        // tail of the snake, we add a new part towards the end, but
+        // want to move the tail towards the back again.
+        int currArraySize = (snakeParts.Count - 1);
+
         // Spawns new snake part and moves it to the last position
         Transform part = Instantiate(this.partPrefab);
-        part.position = snakeParts[snakeParts.Count - 1].position;
+        part.position = snakeParts[currArraySize].position;
 
-        // Adds new part to the list
         snakeParts.Add(part);
-
-        // Update the tail reference
-        tail = snakeParts[1];
+        tail = snakeParts[currArraySize]; // Get the tail.
 
         // Move the tail to the last position in the list
         if (snakeParts.Count > 2)
         {
-            snakeParts.RemoveAt(1);  // Remove the tail from its current position
+            snakeParts.RemoveAt(currArraySize);  // Remove the tail from its current position
             snakeParts.Add(tail);   // Add the tail to the end of the list
         }
     }
