@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: a5daa351e16f40d419a477ddcdd315f7, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 5be1c6ca3361b1945a6900bb94c1f53a, type: 2}
+      objectReference: {fileID: 2100000, guid: c93cf095aedba9f4fb21ce2ae7402637, type: 2}
     - target: {fileID: 919132149155446097, guid: a5daa351e16f40d419a477ddcdd315f7, type: 3}
       propertyPath: m_Name
       value: Snake_Middle
