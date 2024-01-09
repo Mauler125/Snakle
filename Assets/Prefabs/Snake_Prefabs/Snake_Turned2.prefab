@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3317449159230753919
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1303387337576792469, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7496696650521534031, guid: c6a8bb2e769501a45b58365ca057f438, type: 3}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000004371139
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3382912339291313290, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
+      propertyPath: m_Name
+      value: Snake_Turned2 Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
