@@ -119,18 +119,29 @@ public class Snake : MonoBehaviour
             {
                 if (snakeParts[i].rotation != snakeParts[i - 1].rotation)
                 {
+                    // rotation differenc used to determine the turn direction
+                    Quaternion rotDiff = Quaternion.Inverse(snakeParts[i - 1].rotation) * snakeParts[i].rotation;
+                    float yDiff = Mathf.DeltaAngle(0f, rotDiff.eulerAngles.y);
+
+                    // left turns use a different snake mdl to connect the
+                    // segments in thebends 
+                    bool isLeftTurn = yDiff > 0.0f;
+                    int childToEnable = isLeftTurn ? 1 : 2;
+
                     snakeParts[i].GetChild(0).gameObject.SetActive(false);
-                    snakeParts[i].GetChild(1).gameObject.SetActive(true);
+                    snakeParts[i].GetChild(childToEnable).gameObject.SetActive(true);
                 }
                 else
                 {
                     snakeParts[i].GetChild(0).gameObject.SetActive(true);
+
+                    // disable the rotated models
                     snakeParts[i].GetChild(1).gameObject.SetActive(false);
+                    snakeParts[i].GetChild(2).gameObject.SetActive(false);
                 }
             }
 
             snakeParts[i].rotation = snakeParts[i - 1].rotation;
-
             snakeParts[i].position = snakeParts[i - 1].position;
         }
 
