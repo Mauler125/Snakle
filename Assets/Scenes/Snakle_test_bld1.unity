@@ -140,7 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af33720a21a1834e949195810beca53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMgr: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
   initialSnakeLength: 2
   snakeParts: []
@@ -340,7 +339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3af33720a21a1834e949195810beca53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameMgr: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
   initialSnakeLength: 0
   snakeParts: []

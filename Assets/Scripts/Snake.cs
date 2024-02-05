@@ -5,6 +5,8 @@ using UnityEngine.Assertions;
 
 public class Snake : MonoBehaviour
 {
+    public CGameMgr gameMgr;
+
     public Vector3 direction;
 
     public int initialSnakeLength;
@@ -121,15 +123,15 @@ public class Snake : MonoBehaviour
                 {
                     // rotation differenc used to determine the turn direction
                     Quaternion rotDiff = Quaternion.Inverse(snakeParts[i - 1].rotation) * snakeParts[i].rotation;
-                    float yDiff = Mathf.DeltaAngle(0f, rotDiff.eulerAngles.y);
+                    float deltaDiff = Mathf.DeltaAngle(0f, rotDiff.eulerAngles.y);
 
                     // left turns use a different snake mdl to connect the
                     // segments in thebends 
-                    bool isLeftTurn = yDiff > 0.0f;
-                    int childToEnable = isLeftTurn ? 1 : 2;
+                    bool isLeftTurn = deltaDiff > 0.0f;
+                    int mdlToEnable = isLeftTurn ? 1 : 2;
 
                     snakeParts[i].GetChild(0).gameObject.SetActive(false);
-                    snakeParts[i].GetChild(childToEnable).gameObject.SetActive(true);
+                    snakeParts[i].GetChild(mdlToEnable).gameObject.SetActive(true);
                 }
                 else
                 {
@@ -179,8 +181,8 @@ public class Snake : MonoBehaviour
 
     public void DieSnake()
     {
-        // Still need logic for this..
-        Debug.Log("DEAD");
+        Assert.IsTrue(gameMgr);
+        gameMgr.EndGame();
     }
 
     //-------------------------------------------------------------------------

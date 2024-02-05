@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MainScene.unity
+    guid: 8fde1cf893fb7ea489610f95c0eccea5
+  - enabled: 1
+    path: Assets/Scenes/Snakle_test_bld1.unity
+    guid: 7144e25a453fa354bbd1a2bb2179f35f
   m_configObjects: {}
