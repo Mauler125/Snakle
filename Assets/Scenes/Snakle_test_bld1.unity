@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051317877161963549, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051317877161963549, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051317877161963549, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1051317877161963549, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -190,7 +190,7 @@ PrefabInstance:
     - target: {fileID: 4888818119674480763, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: snakeParts
       value: 
-      objectReference: {fileID: 247299251}
+      objectReference: {fileID: 824839838}
     - target: {fileID: 5744351604359128708, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -1138,6 +1138,17 @@ PrefabInstance:
       addedObject: {fileID: 705507995}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9af9ae9a80816c340afc4795ef7158ad, type: 3}
+--- !u!114 &824839838 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
+  m_PrefabInstance: {fileID: 6278951438122596691}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3af33720a21a1834e949195810beca53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &886733591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2396,6 +2407,10 @@ PrefabInstance:
       propertyPath: gameMgr
       value: 
       objectReference: {fileID: 1628722753}
+    - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
+      propertyPath: initialSnakeLength
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
