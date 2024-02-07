@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 7496696650521534031, guid: c6a8bb2e769501a45b58365ca057f438, type: 3}
     - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2718296715794763312, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3382912339291313290, guid: 1e1660ab4d3f3b741af08785f11157a5, type: 3}
       propertyPath: m_Name
-      value: Snake_Turned2 Variant
+      value: Snake_Turned2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

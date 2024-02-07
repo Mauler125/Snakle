@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,24 +10,41 @@ public class FoodScript : MonoBehaviour
     public Snake snakeParts;
     public CGameMgr gameMgr;
 
+    public AudioClip eatSound;
+
     public void FoodSpawning()
     {
+        // Bounds where the Collectible can spawn in
         Bounds bounds = this.gridArea.bounds;
 
+        // New spawnPosition for the Collectible
         Vector3 spawnPosition = new Vector3(
             Random.Range(bounds.min.x, bounds.max.x),
             0.0f,
             Random.Range(bounds.min.z, bounds.max.z));
 
-        if (IsValidSpawnPosition(spawnPosition))
+        // Rounds the number to a whole number
+        spawnPosition = new Vector3(Mathf.Round(spawnPosition.x), 1.0f, Mathf.Round(spawnPosition.z));
+
+        if (snakeParts.snakeParts.Count() < 1022)
         {
-            // Instantiate the food at a unoccupied position
-            this.transform.position = new Vector3(Mathf.Round(spawnPosition.x), 1.0f, Mathf.Round(spawnPosition.z));
+            if (IsValidSpawnPosition(spawnPosition))
+            {
+                // Instantiate the food at a unoccupied position
+                this.transform.position = spawnPosition;
+            }
+            else
+            {
+                // Retry when false
+                FoodSpawning();
+            }
         }
-        else
+        else 
         {
-            Destroy(this.gameObject);
+            // QUITS WHEN YOU'VE COLLECTED EVERYTHING
+            Application.Quit();
         }
+
     }
 
     public void OnTriggerEnter(Collider other)
@@ -41,11 +59,14 @@ public class FoodScript : MonoBehaviour
     }
     bool IsValidSpawnPosition(Vector3 position)
     {
-        // Creates temporary transform for it to be "converted" to a Vector3
-        Transform testTransform = new GameObject().transform;
-        testTransform.position = position;
-
-        // Check if the position is not occupied by the snake
-        return !snakeParts.snakeParts.Contains(testTransform);
+        // Checks each snake piece if the place is occupied
+        foreach(Transform t in snakeParts.snakeParts) 
+        {
+            if (t.position == position)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
