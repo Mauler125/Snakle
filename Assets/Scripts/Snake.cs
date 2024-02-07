@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -17,6 +16,8 @@ public class Snake : MonoBehaviour
     public Transform tailPrefab;
 
     private Transform tail;
+
+    private bool stopMovement;
 
     private enum Movement_t
     {
@@ -63,6 +64,9 @@ public class Snake : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (stopMovement)
+            return;
+
         RunSnakeMovement();
         currentTick++;
     }
@@ -181,8 +185,12 @@ public class Snake : MonoBehaviour
 
     public void DieSnake()
     {
+        // called while already stopped; code bug.
+        Assert.IsFalse(stopMovement);
+        stopMovement = true;
+
         Assert.IsTrue(gameMgr);
-        gameMgr.EndGame();
+        gameMgr.ShowGameSummary();
     }
 
     //-------------------------------------------------------------------------

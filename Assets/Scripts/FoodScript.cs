@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class FoodScript : MonoBehaviour
 {
     public BoxCollider gridArea;
-
     public Snake snakeParts;
+    public CGameMgr gameMgr;
 
     public void FoodSpawning()
     {
@@ -32,6 +33,9 @@ public class FoodScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Assert.IsTrue(gameMgr);
+
+            gameMgr.IncrementScore();
             FoodSpawning();
         }
     }
@@ -44,6 +48,4 @@ public class FoodScript : MonoBehaviour
         // Check if the position is not occupied by the snake
         return !snakeParts.snakeParts.Contains(testTransform);
     }
-
-
 }
