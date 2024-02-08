@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -12,14 +13,22 @@ public class CGameMgr : MonoBehaviour
     //-------------------------------------------------------------------------
     private void Start()
     {
-        persistenceFilePath = Path.Combine(Application.persistentDataPath, fileName);
-        lastPlayDate = Persistence_ReadFile();
+        persisentDataManager.Init();
 
         // used in-game only
         if (timeUi && scoreUi)
         {
-            timeUi.text = lastPlayDate;
+            timeUi.text = persisentDataManager.GetLastPlayDate();
             scoreUi.text = currentScore.ToString();
+        }
+
+        // if we have a score board, initialize it
+        if (scoreFields != null && scoreFields.Count() > 0)
+        {
+            for (int i = 0; i < scoreFields.Count() && i < persisentDataManager.NumScoresTrackable(); i++)
+            {
+                scoreFields[i].text = persisentDataManager.GetScoreEntry(i).ToString();
+            }
         }
 
         startTime = Time.time;
@@ -45,30 +54,36 @@ public class CGameMgr : MonoBehaviour
     //-------------------------------------------------------------------------
     public void StartGame()
     {
-        if (!Persistence_CanPlay())
-        {
-            Assert.IsTrue(delayPanel);
-            delayPanel.SetActive(true);
+        Assert.IsTrue(delayPanel); // Missing delay objects
+        Assert.IsTrue(nextDateDelayText);
 
-            Assert.IsTrue(nextDateDelayText);
-            nextDateDelayText.text = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+        if (!CanPlay())
+        {
+            delayPanel.SetActive(true);
+            nextDateDelayText.text = Utility.GetDate_Formatted(1);
 
             return;
         }
 
         SceneManager.LoadScene((int)Scenes_t.SCENE_GAME);
 
-        // NOTE: persistence is written from here as we don't support pausing
-        // the game; if the user quits for whatever reason (even forcefully),
-        // the file could still be checked on the next launch and gate the
-        // player out. this ultimately is also the only place this function
-        // should be calld from!
-        Persistence_WriteFile();
+        // NOTE: persistent date is written from here as we don't support
+        // pausing the game; if the user quits for whatever reason (even
+        // forcefully), the file could still be checked on the next launch
+        // and gate the player out. this ultimately is also the only place
+        // this function should be called from!
+        persisentDataManager.SaveDateFile();
     }
 
     public void EndGame()
     {
         SceneManager.LoadScene((int)Scenes_t.SCENE_MAIN);
+    }
+
+    // returns true if we are allowed to play
+    private bool CanPlay()
+    {
+        return persisentDataManager.GetLastPlayDate() != Utility.GetCurrentDate_Formatted();
     }
 
     public void ShowGameSummary()
@@ -79,7 +94,10 @@ public class CGameMgr : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         scoreSummaryText.text = currentScore.ToString();
-        nextDateSummaryText.text = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+        nextDateSummaryText.text = Utility.GetDate_Formatted(1);
+
+        persisentDataManager.AddScoreEntry(currentScore);
+        persisentDataManager.SaveScoreData();
     }
 
     // simple multiplier that checks the elapsed timr, the longer the player is
@@ -135,35 +153,6 @@ public class CGameMgr : MonoBehaviour
         delayPanel.SetActive(false);
     }
 
-    //-------------------------------------------------------------------------
-    // Persistence
-    //-------------------------------------------------------------------------
-
-    // returns true if we are allowed to play
-    public bool Persistence_CanPlay()
-    {
-        return lastPlayDate != Persistence_GetCurrentDate();
-    }
-
-    private string Persistence_GetCurrentDate()
-    {
-        return DateTime.Now.ToString("yyyy-MM-dd");
-    }
-
-    private void Persistence_WriteFile()
-    {
-        lastPlayDate = Persistence_GetCurrentDate();
-        File.WriteAllText(persistenceFilePath, lastPlayDate);
-    }
-
-    private string Persistence_ReadFile()
-    {
-        if (File.Exists(persistenceFilePath))
-            return File.ReadAllText(persistenceFilePath);
-
-        return null;
-    }
-
     enum Scenes_t : int
     {
         SCENE_MAIN = 0,
@@ -180,11 +169,6 @@ public class CGameMgr : MonoBehaviour
         public int multiplyAmount;
     }
 
-    // internal persistent data definition members
-    private const string fileName = "last_date.txt";
-    private string persistenceFilePath;
-    private string lastPlayDate;
-
     // the time since we started, and the total elapsed time from
     // start to end
     private float startTime;
@@ -197,9 +181,16 @@ public class CGameMgr : MonoBehaviour
     // current player score
     private int currentScore;
 
+    // used to check for whether we can play, and the score board on the title
+    // screen of the game
+    private CPersistentDataMgr persisentDataManager = new();
+
     // in-game player statistics
     public Text timeUi;
     public Text scoreUi;
+
+    // the score fields constructing the score board
+    public Text[] scoreFields;
 
     // summary panels and data; displayed when the game has finished
     public GameObject gameOverPanel;
