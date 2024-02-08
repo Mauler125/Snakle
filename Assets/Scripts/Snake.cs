@@ -59,6 +59,7 @@ public class Snake : MonoBehaviour
         InitSnake();
 
         stopMovement = true;
+
         cTimer = duration;
         countDownText.text = cTimer.ToString();
         StartCoroutine(countDown());
@@ -104,13 +105,14 @@ public class Snake : MonoBehaviour
         while(cTimer >= 0)
         {
             countDownText.text = cTimer.ToString();
+            timeSound.Play();
             yield return new WaitForSeconds(1f);
             cTimer--;
-            timeSound.Play();
             if(cTimer <= 0)
             {
                 Destroy(countDownText);
                 stopMovement = false;
+                gameMgr.InitTimer();
             }
         }
     }
