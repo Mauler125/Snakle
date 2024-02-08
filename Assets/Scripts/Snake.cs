@@ -126,17 +126,24 @@ public class Snake : MonoBehaviour
             {
                 if (snakeParts[i].rotation != snakeParts[i - 1].rotation)
                 {
-                    // rotation differenc used to determine the turn direction
-                    Quaternion rotDiff = Quaternion.Inverse(snakeParts[i - 1].rotation) * snakeParts[i].rotation;
-                    float deltaDiff = Mathf.DeltaAngle(0f, rotDiff.eulerAngles.y);
+                    Vector3 forwardCurr = snakeParts[i].forward;
+                    Vector3 forwardPrev = snakeParts[i - 1].forward;
 
                     // left turns use a different snake mdl to connect the
                     // segments in thebends 
-                    bool isLeftTurn = deltaDiff > 0.0f;
+                    bool isLeftTurn = Vector3.Cross(forwardPrev, forwardCurr).y > 0.0f;
+
                     int mdlToEnable = isLeftTurn ? 1 : 2;
 
+                    // NOTE: we have to disable the other one as testing
+                    // revealed that it would otherwise show both of them
+                    // if you are fast enough
+                    int mdlToDisable = isLeftTurn ? 2 : 1;
+
                     snakeParts[i].GetChild(0).gameObject.SetActive(false);
+
                     snakeParts[i].GetChild(mdlToEnable).gameObject.SetActive(true);
+                    snakeParts[i].GetChild(mdlToDisable).gameObject.SetActive(false);
                 }
                 else
                 {
@@ -170,6 +177,7 @@ public class Snake : MonoBehaviour
         // Spawns new snake part and moves it to the last position
         Transform part = Instantiate(this.partPrefab);
         part.position = snakeParts[currArraySize].position;
+        part.rotation = snakeParts[currArraySize].rotation;
 
         snakeParts.Add(part);
         tail = snakeParts[currArraySize]; // Get the tail.
