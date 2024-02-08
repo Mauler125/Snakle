@@ -16,7 +16,7 @@ public class FoodScript : MonoBehaviour
     public void FoodSpawning()
     {
         // Bounds where the Collectible can spawn in
-        Bounds bounds = this.gridArea.bounds;
+        Bounds bounds = gridArea.bounds;
 
         // New spawnPosition for the Collectible
         Vector3 spawnPosition = new Vector3(
@@ -32,7 +32,7 @@ public class FoodScript : MonoBehaviour
             if (IsValidSpawnPosition(spawnPosition))
             {
                 // Instantiate the food at a unoccupied position
-                this.transform.position = spawnPosition;
+                transform.position = spawnPosition;
             }
             else
             {
@@ -42,10 +42,8 @@ public class FoodScript : MonoBehaviour
         }
         else 
         {
-            // QUITS WHEN YOU'VE COLLECTED EVERYTHING
-            Application.Quit();
+            gameMgr.ShowGameSummary();
         }
-
     }
 
     public void OnTriggerEnter(Collider other)
@@ -69,6 +67,7 @@ public class FoodScript : MonoBehaviour
                 return false;
             }
         }
+
         return true;
     }
 }
