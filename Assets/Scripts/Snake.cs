@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class Snake : MonoBehaviour
 {
@@ -19,6 +21,10 @@ public class Snake : MonoBehaviour
     public AudioClip deathSound; 
     public AudioSource deathSource;
     private bool stopMovement;
+
+    public Text countDownText;
+    public float duration, cTimer;
+    public AudioSource timeSound;
 
     private enum Movement_t
     {
@@ -51,6 +57,11 @@ public class Snake : MonoBehaviour
     public void Start()
     {
         InitSnake();
+
+        stopMovement = true;
+        cTimer = duration;
+        countDownText.text = cTimer.ToString();
+        StartCoroutine(countDown());
     }
 
     void Update()
@@ -82,6 +93,22 @@ public class Snake : MonoBehaviour
         if (other.CompareTag("Obstacle") || other.CompareTag("SnakeTail"))
         {
             DieSnake();
+        }
+    }
+
+    IEnumerator countDown()
+    {
+        while(cTimer >= 0)
+        {
+            countDownText.text = cTimer.ToString();
+            yield return new WaitForSeconds(1f);
+            cTimer--;
+            timeSound.Play();
+            if(cTimer <= 0)
+            {
+                Destroy(countDownText);
+                stopMovement = false;
+            }
         }
     }
 
