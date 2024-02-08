@@ -85,6 +85,9 @@ public class Snake : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (stopMovement)
+            return;
+
         // Speaks for itself
         if (other.CompareTag("Food"))
         {
