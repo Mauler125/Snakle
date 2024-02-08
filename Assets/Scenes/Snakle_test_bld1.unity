@@ -3712,17 +3712,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1628722753}
     - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
-      propertyPath: duration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
       propertyPath: timeSound
       value: 
       objectReference: {fileID: 108861974}
-    - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
-      propertyPath: deathSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 4dcf85ff60c0d3f4aa52c88856da8d14, type: 3}
     - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
       propertyPath: deathSource
       value: 
@@ -3731,10 +3723,6 @@ PrefabInstance:
       propertyPath: countDownText
       value: 
       objectReference: {fileID: 1742112041}
-    - target: {fileID: 3936363961337815445, guid: 0142312ac9aaa254e9f6864f3b2e8414, type: 3}
-      propertyPath: initialSnakeLength
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
