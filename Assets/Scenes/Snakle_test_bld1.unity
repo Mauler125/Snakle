@@ -2612,6 +2612,8 @@ MonoBehaviour:
   collectibles:
   - {fileID: 4618378430817322979}
   - {fileID: 439004868}
+  defaultTimeStep: 0.1
+  timeStepIncrement: 0.991
 --- !u!4 &1628722754
 Transform:
   m_ObjectHideFlags: 0

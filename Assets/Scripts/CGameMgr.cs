@@ -31,15 +31,15 @@ public class CGameMgr : MonoBehaviour
             }
         }
 
-        startTime = Time.time;
+        Time.fixedDeltaTime = defaultTimeStep;
     }
 
     private void Update()
     {
-        if (stopped)
+        if (paused)
             return;
 
-        elapsedTime = Time.time - startTime;
+        elapsedTime = (startTime > 0) ? Time.time - startTime : 0;
 
         if (timeUi)
         {
@@ -47,6 +47,8 @@ public class CGameMgr : MonoBehaviour
             // first one after the mantissa
             timeUi.text = elapsedTime.ToString("F1");
         }
+
+        Debug.Log(Time.fixedDeltaTime);
     }
 
     //-------------------------------------------------------------------------
@@ -88,7 +90,7 @@ public class CGameMgr : MonoBehaviour
 
     public void ShowGameSummary()
     {
-        stopped = true;
+        paused = true;
 
         Assert.IsTrue(gameOverPanel);
         gameOverPanel.SetActive(true);
@@ -144,6 +146,18 @@ public class CGameMgr : MonoBehaviour
 
         currentScore += (1+ additionalScore) * GetScoreMultiplier(snakeLength);
         scoreUi.text = currentScore.ToString();
+
+        Time.fixedDeltaTime *= timeStepIncrement;
+    }
+
+    public void SetPause(bool pause)
+    {
+        paused = pause;
+    }
+
+    public void InitTimer()
+    {
+        startTime = Time.time;
     }
 
     //-------------------------------------------------------------------------
@@ -192,9 +206,9 @@ public class CGameMgr : MonoBehaviour
     private float startTime;
     private float elapsedTime;
 
-    // once the player died or anything that requires the game to be stopped,
+    // once the player died or anything that requires the game to be paused,
     // this bool must be set to stop simulating the player
-    private bool stopped;
+    private bool paused;
 
     // current player score
     private int currentScore;
@@ -229,4 +243,12 @@ public class CGameMgr : MonoBehaviour
     public ScoreMultiplier_s[] multipliers;
 
     public Collectible[] collectibles;
+
+    // the default fixed time step that will be enforced on each game start
+    public float defaultTimeStep;
+
+    // the time step gets incremented with this value each time the player
+    // picks a collectible, this is to make the game run faster for a more
+    // challenging game experienc
+    public float timeStepIncrement;
 }

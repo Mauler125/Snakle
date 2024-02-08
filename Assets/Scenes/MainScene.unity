@@ -610,6 +610,8 @@ MonoBehaviour:
   nextDateDelayText: {fileID: 1532535500}
   multipliers: []
   collectibles: []
+  defaultTimeStep: 0
+  timeStepIncrement: 0
 --- !u!1 &493126098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1833,6 +1835,30 @@ PrefabInstance:
     - target: {fileID: 873346797549472417, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_MaxValue
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 324
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -121
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046485967154779057, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1095787039884065048, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_SizeDelta.x
