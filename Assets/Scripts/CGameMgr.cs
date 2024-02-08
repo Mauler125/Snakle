@@ -102,8 +102,8 @@ public class CGameMgr : MonoBehaviour
 
     private void SpawnCollectible()
     {
-        FoodScript collectible = collectibles[UnityEngine.Random.Range(0, collectibles.Length)];
-        collectible.FoodSpawning();
+        Collectible collectible = collectibles[UnityEngine.Random.Range(0, collectibles.Length)];
+        collectible.SpawnAtRandomLocation();
     }
 
     // simple multiplier that checks the elapsed timr, the longer the player is
@@ -228,5 +228,5 @@ public class CGameMgr : MonoBehaviour
     // avoids unnecessary iterations over already passed score multipliers
     public ScoreMultiplier_s[] multipliers;
 
-    public FoodScript[] collectibles;
+    public Collectible[] collectibles;
 }

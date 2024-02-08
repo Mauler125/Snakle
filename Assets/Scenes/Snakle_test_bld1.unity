@@ -1068,6 +1068,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1628722753}
     - target: {fileID: 4939564798863236925, guid: cbce968ef13a1e54499f345c104aa100, type: 3}
+      propertyPath: gridArea
+      value: 
+      objectReference: {fileID: 585200743}
+    - target: {fileID: 4939564798863236925, guid: cbce968ef13a1e54499f345c104aa100, type: 3}
+      propertyPath: eatSource
+      value: 
+      objectReference: {fileID: 1788245558}
+    - target: {fileID: 4939564798863236925, guid: cbce968ef13a1e54499f345c104aa100, type: 3}
       propertyPath: disableAfterPickup
       value: 1
       objectReference: {fileID: 0}
@@ -1227,7 +1235,7 @@ GameObject:
   - component: {fileID: 585200744}
   - component: {fileID: 585200743}
   m_Layer: 0
-  m_Name: FoodSpawnArea
+  m_Name: CollectibleSpawnArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

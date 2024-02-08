@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class FoodScript : MonoBehaviour
+public class Collectible : MonoBehaviour
 {
     public BoxCollider gridArea;
     public Snake snake;
@@ -16,7 +16,7 @@ public class FoodScript : MonoBehaviour
     public bool disableAfterPickup;
     public int additionalScoreAmount;
 
-    public void FoodSpawning()
+    public void SpawnAtRandomLocation()
     {
         // when this function gets called, we should enable the gameobj if it
         // was disabled. else you would need to do this from call site, and if
@@ -45,7 +45,7 @@ public class FoodScript : MonoBehaviour
             else
             {
                 // Retry when false
-                FoodSpawning();
+                SpawnAtRandomLocation();
             }
         }
         else 
@@ -69,7 +69,7 @@ public class FoodScript : MonoBehaviour
                 return;
             }
 
-            FoodSpawning();
+            SpawnAtRandomLocation();
         }
     }
     bool IsValidSpawnPosition(Vector3 position)
