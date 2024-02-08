@@ -1783,6 +1783,18 @@ PrefabInstance:
       value: PlayOneShot
       objectReference: {fileID: 0}
     - target: {fileID: 315906614024793582, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 315906614024793582, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 315906614024793582, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 315906614024793582, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -2202,6 +2214,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -336
       objectReference: {fileID: 0}
+    - target: {fileID: 5638849858457938544, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638849858457938544, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638849858457938544, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638849858457938544, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 5911242163603639501, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_Text
       value: 0
@@ -2213,6 +2241,18 @@ PrefabInstance:
     - target: {fileID: 6296308596745000747, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_Name
       value: ButtonOk
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116844216676032134, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116844216676032134, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7116844216676032134, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 7246980105978773121, guid: 170b0bfef82c684408dbc7efd66e1d82, type: 3}
       propertyPath: m_SizeDelta.x
