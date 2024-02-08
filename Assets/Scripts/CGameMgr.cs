@@ -100,6 +100,12 @@ public class CGameMgr : MonoBehaviour
         persisentDataManager.SaveScoreData();
     }
 
+    private void SpawnCollectible()
+    {
+        FoodScript collectible = collectibles[UnityEngine.Random.Range(0, collectibles.Length)];
+        collectible.FoodSpawning();
+    }
+
     // simple multiplier that checks the elapsed timr, the longer the player is
     // in the game, the less each score will be multiplied
     private int GetScoreMultiplier(int snakeLength)
@@ -122,9 +128,21 @@ public class CGameMgr : MonoBehaviour
         return 1;
     }
 
-    public void IncrementScore(int snakeLength)
+    public void IncrementScore(int snakeLength, int additionalScore = 0)
     {
-        currentScore += 1*GetScoreMultiplier(snakeLength);
+        int multiplier = GetScoreMultiplier(snakeLength);
+
+        // must be set first since else we spawn collectibles right of the bat
+        if (lastMultiplierAmmount == 0)
+            lastMultiplierAmmount = multiplier;
+
+        if (multiplier != lastMultiplierAmmount)
+        {
+            lastMultiplierAmmount = multiplier;
+            SpawnCollectible();
+        }
+
+        currentScore += (1+ additionalScore) * GetScoreMultiplier(snakeLength);
         scoreUi.text = currentScore.ToString();
     }
 
@@ -181,6 +199,8 @@ public class CGameMgr : MonoBehaviour
     // current player score
     private int currentScore;
 
+    private int lastMultiplierAmmount;
+
     // used to check for whether we can play, and the score board on the title
     // screen of the game
     private CPersistentDataMgr persisentDataManager = new();
@@ -207,4 +227,6 @@ public class CGameMgr : MonoBehaviour
     // then from "very likely to reach" to "very unlikely to reach" as that
     // avoids unnecessary iterations over already passed score multipliers
     public ScoreMultiplier_s[] multipliers;
+
+    public FoodScript[] collectibles;
 }

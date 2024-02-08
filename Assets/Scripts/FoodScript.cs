@@ -13,8 +13,16 @@ public class FoodScript : MonoBehaviour
     public AudioClip eatSound;
     public AudioSource eatSource;
 
+    public bool disableAfterPickup;
+    public int additionalScoreAmount;
+
     public void FoodSpawning()
     {
+        // when this function gets called, we should enable the gameobj if it
+        // was disabled. else you would need to do this from call site, and if
+        // you happen to forget it, you will have a hard to find bug
+        gameObject.SetActive(true);
+
         // Bounds where the Collectible can spawn in
         Bounds bounds = gridArea.bounds;
 
@@ -52,9 +60,16 @@ public class FoodScript : MonoBehaviour
         {
             Assert.IsTrue(gameMgr);
 
-            gameMgr.IncrementScore(snake.GetSnakeLength());
-            FoodSpawning();
+            gameMgr.IncrementScore(snake.GetSnakeLength(), additionalScoreAmount);
             eatSource.PlayOneShot(eatSound);
+
+            if (disableAfterPickup)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            FoodSpawning();
         }
     }
     bool IsValidSpawnPosition(Vector3 position)
