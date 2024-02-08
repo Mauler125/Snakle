@@ -11,6 +11,7 @@ public class FoodScript : MonoBehaviour
     public CGameMgr gameMgr;
 
     public AudioClip eatSound;
+    public AudioSource eatSource;
 
     public void FoodSpawning()
     {
@@ -55,6 +56,7 @@ public class FoodScript : MonoBehaviour
 
             gameMgr.IncrementScore();
             FoodSpawning();
+            eatSource.PlayOneShot(eatSound);
         }
     }
     bool IsValidSpawnPosition(Vector3 position)

@@ -16,7 +16,8 @@ public class Snake : MonoBehaviour
     public Transform tailPrefab;
 
     private Transform tail;
-
+    public AudioClip deathSound; 
+    public AudioSource deathSource;
     private bool stopMovement;
 
     private enum Movement_t
@@ -191,6 +192,7 @@ public class Snake : MonoBehaviour
 
         Assert.IsTrue(gameMgr);
         gameMgr.ShowGameSummary();
+        deathSource.PlayOneShot(deathSound);
     }
 
     //-------------------------------------------------------------------------
