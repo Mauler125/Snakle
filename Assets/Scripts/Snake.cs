@@ -255,4 +255,12 @@ public class Snake : MonoBehaviour
             pendingMovementCmd = Movement_t.RIGHT;
         }
     }
+
+    //-------------------------------------------------------------------------
+    // Getters
+    //-------------------------------------------------------------------------
+    public int GetSnakeLength()
+    {
+        return snakeParts.Count;
+    }
 }

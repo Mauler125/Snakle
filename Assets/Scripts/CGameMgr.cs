@@ -84,27 +84,29 @@ public class CGameMgr : MonoBehaviour
 
     // simple multiplier that checks the elapsed timr, the longer the player is
     // in the game, the less each score will be multiplied
-    private int GetScoreMultiplier()
+    private int GetScoreMultiplier(int snakeLength)
     {
-        if (elapsedTime < 60)
+        // NOTE: this is ran backwards, as the player is very likely to have
+        // reached the first few multipliers during the start of the game.
+        // small optimization that prolly doesn't really matter, but why not,
+        // its good practice in the long run
+        for (int i = multipliers.Length; (i--) > 0;)
         {
-            return 5;
-        }
-        else if (elapsedTime < 120)
-        {
-            return 3;
-        }
-        else if (elapsedTime < 180)
-        {
-            return 2;
+            ScoreMultiplier_s multiplier = multipliers[i];
+
+            if (snakeLength >= multiplier.requiredAmount)
+            {
+                return multiplier.multiplyAmount;
+            }
         }
 
+        // default = no multiplicatin at all
         return 1;
     }
 
-    public void IncrementScore()
+    public void IncrementScore(int snakeLength)
     {
-        currentScore += 1*GetScoreMultiplier();
+        currentScore += 1*GetScoreMultiplier(snakeLength);
         scoreUi.text = currentScore.ToString();
     }
 
@@ -168,24 +170,50 @@ public class CGameMgr : MonoBehaviour
         SCENE_GAME
     }
 
+    [System.Serializable]
+    public struct ScoreMultiplier_s
+    {
+        // the criteria that has to be met before any multiplication
+        // takes place
+        public int requiredAmount;
+
+        public int multiplyAmount;
+    }
+
+    // internal persistent data definition members
     private const string fileName = "last_date.txt";
     private string persistenceFilePath;
     private string lastPlayDate;
 
+    // the time since we started, and the total elapsed time from
+    // start to end
     private float startTime;
     private float elapsedTime;
 
+    // once the player died or anything that requires the game to be stopped,
+    // this bool must be set to stop simulating the player
     private bool stopped;
 
+    // current player score
+    private int currentScore;
+
+    // in-game player statistics
     public Text timeUi;
     public Text scoreUi;
 
+    // summary panels and data; displayed when the game has finished
     public GameObject gameOverPanel;
     public Text scoreSummaryText;
     public Text nextDateSummaryText;
 
+    // delay panel; displayed when a user attempts to restart the game while
+    // the next playable date hasn't been reached yet
     public GameObject delayPanel;
     public Text nextDateDelayText;
 
-    public int currentScore;
+    // array dictating when a user receives a multiplication on their score,
+    // and how much. the order doesn't matter, but for best performance, order
+    // then from "very likely to reach" to "very unlikely to reach" as that
+    // avoids unnecessary iterations over already passed score multipliers
+    public ScoreMultiplier_s[] multipliers;
 }

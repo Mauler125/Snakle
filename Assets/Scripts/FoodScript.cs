@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class FoodScript : MonoBehaviour
 {
     public BoxCollider gridArea;
-    public Snake snakeParts;
+    public Snake snake;
     public CGameMgr gameMgr;
 
     public AudioClip eatSound;
@@ -27,7 +27,7 @@ public class FoodScript : MonoBehaviour
         // Rounds the number to a whole number
         spawnPosition = new Vector3(Mathf.Round(spawnPosition.x), 1.0f, Mathf.Round(spawnPosition.z));
 
-        if (snakeParts.snakeParts.Count() < 1022)
+        if (snake.snakeParts.Count() < 1022)
         {
             if (IsValidSpawnPosition(spawnPosition))
             {
@@ -54,7 +54,7 @@ public class FoodScript : MonoBehaviour
         {
             Assert.IsTrue(gameMgr);
 
-            gameMgr.IncrementScore();
+            gameMgr.IncrementScore(snake.GetSnakeLength());
             FoodSpawning();
             eatSource.PlayOneShot(eatSound);
         }
@@ -62,7 +62,7 @@ public class FoodScript : MonoBehaviour
     bool IsValidSpawnPosition(Vector3 position)
     {
         // Checks each snake piece if the place is occupied
-        foreach(Transform t in snakeParts.snakeParts) 
+        foreach(Transform t in snake.snakeParts) 
         {
             if (t.position == position)
             {

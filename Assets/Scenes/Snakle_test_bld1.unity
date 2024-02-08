@@ -180,6 +180,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4888818119674480763, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
+      propertyPath: snake
+      value: 
+      objectReference: {fileID: 824839838}
+    - target: {fileID: 4888818119674480763, guid: 600cbc63fd01347499565612f6ba24f1, type: 3}
       propertyPath: gameMgr
       value: 
       objectReference: {fileID: 1628722753}
@@ -2111,6 +2115,15 @@ MonoBehaviour:
   nextDateSummaryText: {fileID: 251826380}
   delayPanel: {fileID: 0}
   nextDateDelayText: {fileID: 0}
+  multipliers:
+  - requiredAmount: 5
+    multiplyAmount: 2
+  - requiredAmount: 10
+    multiplyAmount: 4
+  - requiredAmount: 15
+    multiplyAmount: 8
+  - requiredAmount: 20
+    multiplyAmount: 16
   currentScore: 0
 --- !u!4 &1628722754
 Transform:
@@ -2982,6 +2995,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2930317736433085493, guid: 6709251202799f14595e7000d9509a4e, type: 3}
+      propertyPath: snake
+      value: 
+      objectReference: {fileID: 824839838}
     - target: {fileID: 2930317736433085493, guid: 6709251202799f14595e7000d9509a4e, type: 3}
       propertyPath: gameMgr
       value: 
