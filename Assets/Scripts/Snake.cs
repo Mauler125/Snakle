@@ -1,3 +1,8 @@
+//===========================================================================//
+//
+// Purpose: snake player management class
+//
+//===========================================================================//
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

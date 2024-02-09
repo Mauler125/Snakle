@@ -1,3 +1,8 @@
+//===========================================================================//
+//
+// Purpose: collectible game object (i.e. trophies, food, etc..)
+//
+//===========================================================================//
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

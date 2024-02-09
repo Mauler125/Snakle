@@ -1,3 +1,8 @@
+//===========================================================================//
+//
+// Purpose: core game management class
+//
+//===========================================================================//
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -236,6 +241,7 @@ public class CGameMgr : MonoBehaviour
     // current player score
     private int currentScore;
 
+    // the last multiplier amount issued
     private int lastMultiplierAmmount;
 
     // used to check for whether we can play, and the score board on the title
