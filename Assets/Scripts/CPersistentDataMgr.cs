@@ -18,9 +18,20 @@ public class CPersistentDataMgr
     {
         lastDateFilePath = Path.Combine(Application.persistentDataPath, lastDateFileName);
         lastScoresFilePath = Path.Combine(Application.persistentDataPath, lastScoresFileName);
+        levelChangeFilePath = Path.Combine(Application.persistentDataPath, levelSwapFileName);
 
         LoadDateData();
         LoadScoreData();
+        LoadLevelChangeData();
+
+        CheckAndUpdateLevelChangeData();
+
+        isInitialized = true;
+    }
+
+    public bool Initialized()
+    {
+        return isInitialized;
     }
 
     //-------------------------------------------------------------------------
@@ -103,6 +114,52 @@ public class CPersistentDataMgr
         return scoreTracker.Count;
     }
 
+    //-------------------------------------------------------------------------
+    // Level change data
+    //-------------------------------------------------------------------------
+    public void LoadLevelChangeData()
+    {
+        if (File.Exists(levelChangeFilePath))
+        {
+            string jsonString = File.ReadAllText(levelChangeFilePath);
+            levelChangeData = JsonUtility.FromJson<LevelChange_s>(jsonString);
+            levelChangeData.currentDateObj = DateTime.Parse(levelChangeData.currentDate);
+        }
+        else
+        {
+            levelChangeData = new LevelChange_s();
+            levelChangeData.currentDateObj = DateTime.Now;
+            levelChangeData.skinIndex = 1;
+            SaveLevelChangeData();
+        }
+    }
+
+    public void SaveLevelChangeData()
+    {
+        // Update currentDate string before saving
+        levelChangeData.currentDate = levelChangeData.currentDateObj.ToString();
+
+        string jsonString = JsonUtility.ToJson(levelChangeData);
+        File.WriteAllText(levelChangeFilePath, jsonString);
+    }
+
+    private void CheckAndUpdateLevelChangeData()
+    {
+        DateTime oneMonthLater = levelChangeData.currentDateObj.AddMonths(1);
+
+        if (DateTime.Now >= oneMonthLater)
+        {
+            levelChangeData.currentDateObj = DateTime.Now;
+            levelChangeData.skinIndex++;
+            SaveLevelChangeData();
+        }
+    }
+
+    public int GetSkinIndex()
+    {
+        return levelChangeData.skinIndex;
+    }
+
     [Serializable]
     private class ScoreTracker_s
     {
@@ -114,14 +171,27 @@ public class CPersistentDataMgr
         }
     }
 
+    [Serializable]
+    public class LevelChange_s
+    {
+        public string currentDate;
+        public int skinIndex;
+
+        [NonSerialized]
+        public DateTime currentDateObj;
+    }
+
+
     // unqualified file names for persistent data, currently we only track the
     // date and score; this should be good enuf
     private const string lastDateFileName = "last_date.txt";
     private const string lastScoresFileName = "last_scores.json";
+    private const string levelSwapFileName = "level_swap.json";
 
     // qualified file path to the persisten data files
     private string lastDateFilePath;
     private string lastScoresFilePath;
+    private string levelChangeFilePath;
 
     // the total # of scores we track and display, the UI is fixed at size 5 as
     // that was our design choice, so we just keep this a const
@@ -131,6 +201,12 @@ public class CPersistentDataMgr
     // of the disk each time when we query whether we could play
     private string lastPlayDate;
 
+    // whether the persistent data has been initialized
+    private bool isInitialized;
+
     [SerializeField] // internal container for score json data
     private List<int> scoreTracker = new List<int>();
+
+    [SerializeField]
+    LevelChange_s levelChangeData;
 }

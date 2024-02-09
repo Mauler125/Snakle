@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class CGameMgr : MonoBehaviour
     private void Start()
     {
         persisentDataManager.Init();
+
+        InitLevelSkin();
 
         // used in-game only
         if (timeUi && scoreUi)
@@ -47,8 +50,6 @@ public class CGameMgr : MonoBehaviour
             // first one after the mantissa
             timeUi.text = elapsedTime.ToString("F1");
         }
-
-        Debug.Log(Time.fixedDeltaTime);
     }
 
     //-------------------------------------------------------------------------
@@ -86,6 +87,28 @@ public class CGameMgr : MonoBehaviour
     private bool CanPlay()
     {
         return persisentDataManager.GetLastPlayDate() != Utility.GetCurrentDate_Formatted();
+    }
+
+    private void InitLevelSkin()
+    {
+        Assert.IsTrue(persisentDataManager.Initialized(),
+            "called before initializing the persistence data mgr");
+
+        // no level skins installed; don't bother
+        if (gameMaps == null || gameMaps.Count == 0)
+            return;
+
+        // NOTE: this approac of indexing allows us to not keep track of the
+        // last index, and increment it, and write it properly, etc.. we cam
+        // just increment the skinIndex in the persistent data file until it
+        // overflows and wraps back to 0, it won't ever index oob into the list
+        // as this causes circulation to happen up to len gameMaps.
+        // would be nicer to do GetSkinIndex() & listMask of gameMaps,
+        // since you will skip a devision, but that requires the list size to
+        // be a power of 2, and this code is only fired on game start, so at
+        // the same time it doesn't really mattah
+        int currentSkinIndex = persisentDataManager.GetSkinIndex() % (gameMaps.Count - 1);
+        gameMaps[currentSkinIndex].SetActive(true);
     }
 
     public void ShowGameSummary()
@@ -218,6 +241,9 @@ public class CGameMgr : MonoBehaviour
     // used to check for whether we can play, and the score board on the title
     // screen of the game
     private CPersistentDataMgr persisentDataManager = new();
+
+    // list of current map skins, which will rotate every month
+    public List<GameObject> gameMaps;
 
     // in-game player statistics
     public Text timeUi;

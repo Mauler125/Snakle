@@ -2392,7 +2392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3419069767763630556, guid: d26485f8f75d2524a8312e789d908d11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2592,6 +2592,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d38b5b578e4334b81e3af53bce13fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMaps:
+  - {fileID: 298544713}
+  - {fileID: 2007477780}
+  - {fileID: 1370172867}
   timeUi: {fileID: 1347383955}
   scoreUi: {fileID: 1313085199}
   scoreFields: []
@@ -2671,7 +2675,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1628722752}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1554b5c38e377b94691dfa390b9c5097, type: 3}
   m_Name: 
